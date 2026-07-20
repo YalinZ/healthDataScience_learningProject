@@ -9,7 +9,7 @@
 | 项目编号 | 项目名称 | 核心技术与应用领域 | 项目状态 | 跳转链接 |
 | :---: | :--- | :--- | :---: | :---: |
 | **01** | **01_diabetes_readmission**<br>(糖尿病 30 天再入院预测) | 特征工程 · XGBoost/随机森林 · SHAP 归因 · Streamlit 部署 | **`[已完成]`** | [查看项目](./01_diabetes_readmission) \| [结项报告](./01_diabetes_readmission/project_summary.md) |
-| **02** | **02_survival_analysis**<br>(患者生存期与风险比分析) | 生存分析 (Survival Analysis) · Kaplan-Meier · Cox 比例风险模型 | **`[筹备/开发中]`** | *筹备/开发中...* |
+| **02** | **02_survival_analysis**<br>(肺癌患者生存期与风险比分析) | 生存分析 (Survival Analysis) · Kaplan-Meier · 随机生存森林 (RSF) · C-index | **`[已完成]`** | [查看项目](./02_survival_analysis) \| [建模 Notebook](./02_survival_analysis/survival_analysis.ipynb) |
 | **03** | **03_time_series_forecast**<br>(用户购买行为与时间序列预测) | 时间序列分析 (Time Series) · ARIMA/Prophet · 销量预测 | **`[规划中]`** | *规划中...* |
 
 ---
@@ -30,6 +30,20 @@
 
 ---
 
+### 🫁 项目 02：02_survival_analysis (肺癌患者生存期与风险比分析)
+- **业务背景**：基于 NCCTG 临床肺癌数据集，针对观察生存时间（Time）与死亡/删失事件（Event）进行前沿生存分析与个体化风险预警。
+- **技术亮点**：
+  - **总体 Kaplan-Meier 分析**：拟合全组 228 例患者生存曲线，测算中位生存期为 **310.0 天（约 10.2 个月）**，带 95% 置信区间与删失标记。
+  - **随机生存森林 (RSF) 机器学习升级**：引入非参数集成模型 `scikit-survival`，克服传统 Cox PH 模型的同比例风险假设限制，测试集 C-index 从 **0.5123** 显著提升至 **0.5603**（提升 **+9.37%**）。
+  - **个体化动态生存曲线预测**：为不同体能状态（ECOG 0分 vs 2分）患者生成 0 ~ 800 天内的个性化生存衰减图表。
+- **快速入口**：
+  - 📓 [完整分析与建模 Notebook (survival_analysis.ipynb)](./02_survival_analysis/survival_analysis.ipynb)
+  - 📊 [总体 KM 生存曲线图 (overall_km_curve.png)](./02_survival_analysis/overall_km_curve.png)
+  - 📈 [个体化 RSF 生存衰减预测图 (individual_rsf_survival_curves.png)](./02_survival_analysis/individual_rsf_survival_curves.png)
+  - 📋 [任务动态看板 (todo.md)](./02_survival_analysis/todo.md)
+
+---
+
 ## 🛠️ 环境依赖与快速开始
 
 1. **克隆本仓库**：
@@ -38,11 +52,18 @@
    cd healthDataScience_learningProject
    ```
 
-2. **运行项目 01（糖尿病预测网页）**：
+2. **运行项目 01（糖尿病预测 Web App）**：
    ```bash
    cd 01_diabetes_readmission
    pip install pandas xgboost scikit-learn streamlit joblib shap
    streamlit run app.py
+   ```
+
+3. **运行项目 02（肺癌生存分析 Notebook）**：
+   ```bash
+   cd 02_survival_analysis
+   pip install "numpy<2" lifelines "scikit-survival==0.23.0" matplotlib seaborn
+   jupyter notebook survival_analysis.ipynb
    ```
 
 ---
