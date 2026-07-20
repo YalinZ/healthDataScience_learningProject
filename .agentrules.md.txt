@@ -1,0 +1,20 @@
+# 🤖 全局 AI 代理行为规范指南 (.agentrules.md)
+
+本规则文件用于指导 AI Agent (Google Antigravity / Cursor) 在本数据科学作品集项目中执行自驱开发。
+
+## 🎯 核心行为原则 (Core Principles)
+1. **代码与文档并重 (Code + Context)**：
+   * 在修改或生成任何 `.ipynb` Jupyter Notebook 时，必须在每个代码单元格 (Code Cell) 之前，添加排版精美的 Markdown 单元格。
+   * Markdown 必须包含：**医学/业务背景**、**算法数学原理** 以及 **对关键输出图表的临床解读**。
+
+2. **医疗数据清洗与特征工程红线**：
+   * 严禁无脑使用均值 (Mean) 填充具有重大临床意义的缺失值。缺失率超过 40% 的特征应予以剔除或单独标记。
+   * 处理分类特征时，必须使用规范的独热编码 (One-Hot Encoding) 或标签编码 (Label Encoding)，并保留特征映射字典。
+   * 划分数据集时，必须先进行 `train_test_split` 切分，再进行特征缩放 (StandardScaler)，严格防止**数据泄露 (Data Leakage)**。
+
+3. **模型评估规范**：
+   * 在医疗分类任务中，除了计算综合指标 ROC-AUC 外，必须重点计算并展示**混淆矩阵 (Confusion Matrix)**、**召回率 (Recall)** 和 **F1-Score**，优先保障低漏诊率。
+
+4. **版本控制与文件管理**：
+   * 所有新增的数据分析方向必须以子文件夹形式独立归档（如 `01_diabetes_readmission/`）。
+   * 定期维护项目根目录下的 `todo.md` 看板，确保任务完成进度实时更新。
