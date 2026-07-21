@@ -12,6 +12,7 @@
 | **02** | **02_survival_analysis**<br>(肺癌患者生存期与风险比分析) | 生存分析 (Survival Analysis) · Kaplan-Meier · 随机生存森林 (RSF) · C-index | **`[已完成]`** | [查看项目](./02_survival_analysis) \| [建模 Notebook](./02_survival_analysis/survival_analysis.ipynb) |
 | **03** | **03_time_series_forecast**<br>(中国流感趋势预测与搜索指数预警) | 时间序列分析 · ADF 检验 · STL 分解 · SARIMA/SARIMAX 外生预警 | **`[已完成]`** | [查看项目](./03_time_series_forecast) \| [分析 Notebook](./03_time_series_forecast/time_series_analysis.ipynb) |
 | **04** | **04_bayesian_diagnosis**<br>(常见呼吸道传染病贝叶斯网络诊断) | 贝叶斯信念网络 (BBN) · CPT 概率表 · 变量消除法 · BernoulliNB | **`[已完成]`** | [查看项目](./04_bayesian_diagnosis) \| [分析 Notebook](./04_bayesian_diagnosis/bayesian_diagnosis.ipynb) |
+| **05** | **05_rare_drug_events**<br>(罕见药物不良事件/极不平衡数据分析) | ROR 信号挖掘 · BorderlineSMOTE · LightGBM · PR-AUC / F2 · SHAP 交互作用 | **`[已完成]`** | [查看项目](./05_rare_drug_events) \| [分析 Notebook](./05_rare_drug_events/rare_event_analysis.ipynb) |
 
 ---
 
@@ -74,6 +75,21 @@
 
 ---
 
+### 💊 项目 05：05_rare_drug_events (罕见药物不良事件预测与多药相互作用分析)
+- **业务背景**：基于自发性不良反应报告数据库，在 1.7% 正样本极度倾斜场景下进行罕见毒性信号挖掘 (ROR)、BorderlineSMOTE 少数类扩增、LightGBM 建模及 SHAP 多药非线性相互作用解析。
+- **技术亮点**：
+  - **ROR 频数信号挖掘**：编写 Python 函数计算 Reporting Odds Ratio 及其 95% 置信区间，筛选 $\text{ROR} > 2.0$ 且 $\text{CI Lower} > 1.0$ 的高风险预警信号。
+  - **BorderlineSMOTE 与 LightGBM 建模**：在 1.7% 极度倾斜数据集上施加 BorderlineSMOTE 少数类扩增，结合 LightGBM 提升模型对稀有事件的抓取能力。
+  - **PR-AUC 与 F2-Score 指标评估**：遵循评估红线放弃假象膨胀的 Accuracy/ROC-AUC，聚焦 PR-AUC（达 **0.2679**，比随机基线高 **15.5 倍**）与高召回惩罚指标 $F_2$-Score (**0.5324**)。
+  - **SHAP 非线性多药协同毒性**：绘制 SHAP 交互作用图，揭示 Drug A > 75 mg 且 Drug B > 45 mg 时的非线性毒性陡升，为临床药物剂量风控提供决策依据。
+- **快速入口**：
+  - 📓 [完整分析与建模 Notebook (rare_event_analysis.ipynb)](./05_rare_drug_events/rare_event_analysis.ipynb)
+  - 📈 [Precision-Recall (PR) 曲线图 (pr_curve.png)](./05_rare_drug_events/pr_curve.png)
+  - 🧪 [SHAP 双药交互依赖图 (shap_interaction.png)](./05_rare_drug_events/shap_interaction.png)
+  - 📋 [任务动态看板 (todo.md)](./05_rare_drug_events/todo.md)
+
+---
+
 ## 🛠️ 环境依赖与快速开始
 
 1. **克隆本仓库**：
@@ -108,6 +124,13 @@
    cd 04_bayesian_diagnosis
    pip install "numpy<2" pgmpy scikit-learn networkx matplotlib seaborn
    jupyter notebook bayesian_diagnosis.ipynb
+   ```
+
+6. **运行项目 05（罕见药物不良事件与多药相互作用 Notebook）**：
+   ```bash
+   cd 05_rare_drug_events
+   pip install imbalanced-learn lightgbm shap matplotlib seaborn scikit-learn
+   jupyter notebook rare_event_analysis.ipynb
    ```
 
 ---
