@@ -10,7 +10,7 @@
 | :---: | :--- | :--- | :---: | :---: |
 | **01** | **01_diabetes_readmission**<br>(糖尿病 30 天再入院预测) | 特征工程 · XGBoost/随机森林 · SHAP 归因 · Streamlit 部署 | **`[已完成]`** | [查看项目](./01_diabetes_readmission) \| [结项报告](./01_diabetes_readmission/project_summary.md) |
 | **02** | **02_survival_analysis**<br>(肺癌患者生存期与风险比分析) | 生存分析 (Survival Analysis) · Kaplan-Meier · 随机生存森林 (RSF) · C-index | **`[已完成]`** | [查看项目](./02_survival_analysis) \| [建模 Notebook](./02_survival_analysis/survival_analysis.ipynb) |
-| **03** | **03_time_series_forecast**<br>(用户购买行为与时间序列预测) | 时间序列分析 (Time Series) · ARIMA/Prophet · 销量预测 | **`[规划中]`** | *规划中...* |
+| **03** | **03_time_series_forecast**<br>(中国流感趋势预测与搜索指数预警) | 时间序列分析 · ADF 检验 · STL 分解 · SARIMA/SARIMAX 外生预警 | **`[已完成]`** | [查看项目](./03_time_series_forecast) \| [分析 Notebook](./03_time_series_forecast/time_series_analysis.ipynb) |
 
 ---
 
@@ -44,6 +44,21 @@
 
 ---
 
+### 🤒 项目 03：03_time_series_forecast (中国流感趋势预测与搜索指数预警)
+- **业务背景**：结合中国疾控中心历史流感病例监测数据与网络“发烧/流感”百度搜索热度指数，开展季节性时间序列建模与暴发峰值预测。
+- **技术亮点**：
+  - **ADF 平稳性检验与 STL 分解**：原始序列存在显著上升趋势与冬春季节性（ADF $p=0.9987$），一阶差分后实现平稳（$p<0.05$）；调用 `statsmodels` 拆解出 12 个月冬春高发周期。
+  - **无泄露 8:2 时间序列切分**：遵循时序切分红线（无随机打乱），划分 2018.01 - 2022.09 (57个月) 为训练集，2022.10 - 2023.12 (15个月) 为测试集。
+  - **SARIMAX 外生预警建模**：引入搜索指数作为外生特征（Exogenous Regressor），增强模型对流行病暴发拐点与高峰期的前瞻性预测能力。
+- **快速入口**：
+  - 📓 [完整分析与建模 Notebook (time_series_analysis.ipynb)](./03_time_series_forecast/time_series_analysis.ipynb)
+  - 📈 [双轴时序对比图 (ts_overview.png)](./03_time_series_forecast/ts_overview.png)
+  - 📊 [STL 趋势-季节性-残差分解图 (stl_decomposition.png)](./03_time_series_forecast/stl_decomposition.png)
+  - ✂️ [8:2 时间切分示意图 (train_test_split.png)](./03_time_series_forecast/train_test_split.png)
+  - 📋 [任务动态看板 (todo.md)](./03_time_series_forecast/todo.md)
+
+---
+
 ## 🛠️ 环境依赖与快速开始
 
 1. **克隆本仓库**：
@@ -64,6 +79,13 @@
    cd 02_survival_analysis
    pip install "numpy<2" lifelines "scikit-survival==0.23.0" matplotlib seaborn
    jupyter notebook survival_analysis.ipynb
+   ```
+
+4. **运行项目 03（流感时间序列预测 Notebook）**：
+   ```bash
+   cd 03_time_series_forecast
+   pip install akshare statsmodels pmdarima matplotlib seaborn
+   jupyter notebook time_series_analysis.ipynb
    ```
 
 ---
