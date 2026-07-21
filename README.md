@@ -11,6 +11,7 @@
 | **01** | **01_diabetes_readmission**<br>(糖尿病 30 天再入院预测) | 特征工程 · XGBoost/随机森林 · SHAP 归因 · Streamlit 部署 | **`[已完成]`** | [查看项目](./01_diabetes_readmission) \| [结项报告](./01_diabetes_readmission/project_summary.md) |
 | **02** | **02_survival_analysis**<br>(肺癌患者生存期与风险比分析) | 生存分析 (Survival Analysis) · Kaplan-Meier · 随机生存森林 (RSF) · C-index | **`[已完成]`** | [查看项目](./02_survival_analysis) \| [建模 Notebook](./02_survival_analysis/survival_analysis.ipynb) |
 | **03** | **03_time_series_forecast**<br>(中国流感趋势预测与搜索指数预警) | 时间序列分析 · ADF 检验 · STL 分解 · SARIMA/SARIMAX 外生预警 | **`[已完成]`** | [查看项目](./03_time_series_forecast) \| [分析 Notebook](./03_time_series_forecast/time_series_analysis.ipynb) |
+| **04** | **04_bayesian_diagnosis**<br>(常见呼吸道传染病贝叶斯网络诊断) | 贝叶斯信念网络 (BBN) · CPT 概率表 · 变量消除法 · BernoulliNB | **`[已完成]`** | [查看项目](./04_bayesian_diagnosis) \| [分析 Notebook](./04_bayesian_diagnosis/bayesian_diagnosis.ipynb) |
 
 ---
 
@@ -59,6 +60,20 @@
 
 ---
 
+### 🧬 项目 04：04_bayesian_diagnosis (常见呼吸道传染病贝叶斯网络与朴素贝叶斯诊断对比)
+- **业务背景**：探讨概率图模型（PGM）在医学临床诊断与多症状鉴别推理中的实际价值，对比基线朴素贝叶斯 (`BernoulliNB`) 与贝叶斯信念网络 (`BBN`) 的表现。
+- **技术亮点**：
+  - **BBN 图结构与 CPT 绑定**：基于 `pgmpy` 构建有向无环图 (DAG)，加入症状间横向依赖（`Fever -> Fatigue`），通过 `check_model()` 校验概率守恒。
+  - **变量消除法精准推导**：运用 `VariableElimination` 推导后验概率 $P(\text{Disease} \mid \text{Evidence})$。
+  - **证据冲击与偏见失真剖析**：当观察到 `Fever=1, LossOfTaste=1` 时，BBN 准确识别 COVID 概率（**87.89%**），而朴素贝叶斯因独立性假设稀释强标志特征概率（降至 **57.56%**）。
+- **快速入口**：
+  - 📓 [完整分析与建模 Notebook (bayesian_diagnosis.ipynb)](./04_bayesian_diagnosis/bayesian_diagnosis.ipynb)
+  - 🕸️ [BBN 网络拓扑图 (bbn_topology.png)](./04_bayesian_diagnosis/bbn_topology.png)
+  - 📊 [模型预测概率对比图 (model_comparison.png)](./04_bayesian_diagnosis/model_comparison.png)
+  - 📋 [任务动态看板 (todo.md)](./04_bayesian_diagnosis/todo.md)
+
+---
+
 ## 🛠️ 环境依赖与快速开始
 
 1. **克隆本仓库**：
@@ -86,6 +101,13 @@
    cd 03_time_series_forecast
    pip install akshare statsmodels pmdarima matplotlib seaborn
    jupyter notebook time_series_analysis.ipynb
+   ```
+
+5. **运行项目 04（贝叶斯诊断与 BBN 对比 Notebook）**：
+   ```bash
+   cd 04_bayesian_diagnosis
+   pip install "numpy<2" pgmpy scikit-learn networkx matplotlib seaborn
+   jupyter notebook bayesian_diagnosis.ipynb
    ```
 
 ---
